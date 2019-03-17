@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: <Widget>[HomeScreenTopPart()],
+        children: <Widget>[HomeScreenTopPart(), HomeScreenBottomPart()],
       ),
     );
   }
@@ -232,5 +232,137 @@ class _ChoiceChipState extends State<ChoiceChip> {
     } else {
       return null;
     }
+  }
+}
+
+class HomeScreenBottomPart extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: <Widget>[
+          SizedBox(
+            height: 15.0,
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Currenty Watched Items"),
+                Text(
+                  "View All (12)",
+                  style: TextStyle(color: Colors.orange),
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Container(
+            height: 200.0,
+            child:
+                ListView(scrollDirection: Axis.horizontal, children: <Widget>[
+              PlaceListItem(
+                  "New York", "assets/images/new_york.jpg", Colors.blue),
+              PlaceListItem(
+                  "Los Vegas", "assets/images/los_vegas.jpg", Colors.red),
+              PlaceListItem("China", "assets/images/china.jpg", Colors.green)
+            ]),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+class PlaceListItem extends StatefulWidget {
+  final String title;
+  final String image;
+  final Color color;
+  final String discount = "45%";
+
+  PlaceListItem(this.title, this.image, this.color);
+
+  @override
+  _PlaceListItemState createState() => _PlaceListItemState();
+}
+
+class _PlaceListItemState extends State<PlaceListItem> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        child: Container(
+          width: 160.0,
+          height: 200.0,
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Image.asset(widget.image, fit: BoxFit.cover),
+              Positioned(
+                left: 0.0,
+                right: 0.0,
+                bottom: 0.0,
+                child: Container(
+                  height: 70.0,
+                  width: 160.0,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [Colors.black, Colors.black12],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter)),
+                ),
+              ),
+              Positioned(
+                  left: 10.0,
+                  right: 10.0,
+                  bottom: 10.0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(widget.title,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold)),
+                          Text("data",
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15.0))
+                        ],
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0)),
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 4.0),
+                          child: Text(
+                            widget.discount,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ))
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
