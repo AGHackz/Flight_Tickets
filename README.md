@@ -1,6 +1,6 @@
 # flight_tickets
 
-A new Flutter project.
+A Flight Ticket Booking App UI Demo in Flutter
 
 ## Getting Started
 
