@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'CustomShapeClipper.dart';
+import 'CustomBottomNavigationBar.dart';
+import 'SearchResultScreen.dart';
 
 void main() => runApp(MyApp());
+
+List<String> locations = ["Boston (BTN)", "New York"];
 
 class MyApp extends StatelessWidget {
   @override
@@ -9,7 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Demo",
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      // home: HomeScreen(),
+      home: SearchResultScreen(),
     );
   }
 }
@@ -18,9 +23,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[HomeScreenTopPart(), HomeScreenBottomPart()],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[HomeScreenTopPart(), HomeScreenBottomPart()],
+        ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
@@ -33,8 +41,9 @@ class HomeScreenTopPart extends StatefulWidget {
 class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
   final firstColor = Colors.orange;
   final secondColor = Colors.orange[600];
-  var _searchText = "New York City (JFK)";
+  var _searchText = locations[1];
   var isFlightSelected = true;
+  var selectedCity = locations[0];
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +77,35 @@ class _HomeScreenTopPartState extends State<HomeScreenTopPart> {
                               child:
                                   Icon(Icons.location_on, color: Colors.white),
                             ),
-                            Text("Boston (BOS) ",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 15.0)),
+                            PopupMenuButton(
+                              child: Text(selectedCity,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15.0)),
+                              onSelected: (value) {
+                                setState(() {
+                                  selectedCity = locations[value];
+                                });
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry>[
+                                    PopupMenuItem(
+                                      child: Text(locations[0],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15.0)),
+                                      value: 0,
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text(locations[1],
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15.0)),
+                                      value: 1,
+                                    )
+                                  ],
+                            ),
                             Icon(
-                              Icons.arrow_drop_down,
+                              Icons.keyboard_arrow_down,
                               color: Colors.white,
                             )
                           ],
